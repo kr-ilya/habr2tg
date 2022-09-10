@@ -23,6 +23,8 @@ NEWS_CHANNEL_ID=id канала с новостями
 YDB_ENDPOINT
 YDB_DATABASE
 ```
+[Создать](https://cloud.yandex.ru/docs/ydb/quickstart#create-db) базу данных YDB  
+Настроить [триггер](https://cloud.yandex.ru/docs/functions/quickstart/create-trigger/) для запуска скрипта каждую минуту
 
 ## License
 
