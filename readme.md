@@ -1,7 +1,11 @@
 # Habr2Tg
 
 Habr2Tg - Парсинг постов и новостей с habr.com в телеграм
+
 Предназначен для запуска на [Yandex Cloud Functions](https://cloud.yandex.ru/services/functions)
+
+[Habr Feed](https://t.me/HabrFeed)  
+[Habr News](https://t.me/HabrNewsFeed)
 
 ## Tech
 
