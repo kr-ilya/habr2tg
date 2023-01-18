@@ -17,7 +17,8 @@ import logging
 #YDB_DATABASE
 
 API = habrapi.HabrAPI()
-logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger()
+logger.setLevel(logging.WARNING)
 
 class HabrParser():
     def __init__(self):
@@ -40,6 +41,8 @@ class HabrParser():
         if articles == None:
             return None
 
+        logger.info(f"articlesIds {articles['articleIds']}")
+        
         for article in reversed(articles['articleIds']):
             timePublished = parse(articles['articleRefs'][article]['timePublished'])
             timePublished.replace(tzinfo=DT.timezone.utc).timestamp()
@@ -63,6 +66,8 @@ class HabrParser():
         articles = API.getNews()
         if articles == None:
             return None
+        
+        logger.info(f"newsIds {articles['articleIds']}")
 
         for article in reversed(articles['articleIds']):
 
@@ -133,7 +138,7 @@ class HabrParser():
         response = requests.get(tgUrl)
         tgres = response.json()
         
-        logging.debug(tgres)
+        logger.info(tgres)
 
         time.sleep(1)
 
@@ -159,7 +164,7 @@ def handler(event, context):
             'statusCode': 200,
             'body': "error get articles"
         }
-    
+
     # лента новостей
     newsRes = habrParser.news(int(last_datetime.LAST_NT))
     if newsRes == None:

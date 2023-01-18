@@ -1,5 +1,9 @@
 import requests
 import logging
+
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
 class HabrAPI():
     def __init__(self):
         self.ENDPOINT = "https://habr.com/kek/v2/"
@@ -14,10 +18,10 @@ class HabrAPI():
             if(r.status_code == 200):
                 return response
             else:
-                logging.error("api.getArticles.!200")
+                logger.error("api.getArticles.!200")
                 return None
         except Exception as e:
-            logging.error("api.getArticles")
+            logger.error("api.getArticles")
             return None
     
     def getNews(self):
@@ -29,8 +33,8 @@ class HabrAPI():
             if(r.status_code == 200):
                 return response
             else:
-                logging.error("api.getNews.!200")
+                logger.error("api.getNews.!200")
                 return None
         except Exception as e:
-            logging.error("api.getNews")
+            logger.error("api.getNews")
             return None
