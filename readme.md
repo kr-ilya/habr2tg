@@ -23,6 +23,12 @@ NEWS_CHANNEL_ID=id канала с новостями
 YDB_ENDPOINT
 YDB_DATABASE
 ```
+
+Точка входа
+```sh
+parser.handler
+```
+
 [Создать](https://cloud.yandex.ru/docs/ydb/quickstart#create-db) базу YDB и таблицу с приведенной ниже схемой данных  
 Настроить [триггер](https://cloud.yandex.ru/docs/functions/quickstart/create-trigger/) для запуска скрипта каждую минуту
 
