@@ -24,7 +24,12 @@ class HabrParser():
     def __init__(self):
 
         # create driver in global space.
-        driver = ydb.Driver(endpoint=os.getenv('YDB_ENDPOINT'), database=os.getenv('YDB_DATABASE'))
+        driver = ydb.Driver(
+            endpoint=os.getenv('YDB_ENDPOINT'),
+            database=os.getenv('YDB_DATABASE'),
+            credentials=ydb.iam.MetadataUrlCredentials(),
+        )
+        
         # Wait for the driver to become active for requests.
         driver.wait(fail_fast=True, timeout=5)
         # Create the session pool instance to manage YDB sessions.
@@ -41,10 +46,10 @@ class HabrParser():
         if articles == None:
             return None
 
-        logger.info(f"articlesIds {articles['articleIds']}")
+        logger.info(f"articlesIds {articles['publicationIds']}")
         
-        for article in reversed(articles['articleIds']):
-            timePublished = parse(articles['articleRefs'][article]['timePublished'])
+        for article in reversed(articles['publicationIds']):
+            timePublished = parse(articles['publicationRefs'][article]['timePublished'])
             timePublished.replace(tzinfo=DT.timezone.utc).timestamp()
             at = int(timePublished.replace(tzinfo=DT.timezone.utc).timestamp())
             
@@ -52,10 +57,10 @@ class HabrParser():
 
                 self.set_last_datetime('LAST_AT', at)
 
-                title = articles['articleRefs'][article]['titleHtml']
-                author = articles['articleRefs'][article]['author']['alias']
-                tags = articles['articleRefs'][article]['tags']
-                aid = articles['articleRefs'][article]['id']
+                title = articles['publicationRefs'][article]['titleHtml']
+                author = articles['publicationRefs'][article]['author']['alias']
+                tags = articles['publicationRefs'][article]['tags']
+                aid = articles['publicationRefs'][article]['id']
 
                 link = f'https://habr.com/ru/post/{aid}/'
                 self.publish(title, author, tags, link, self.channelId)
@@ -67,11 +72,11 @@ class HabrParser():
         if articles == None:
             return None
         
-        logger.info(f"newsIds {articles['articleIds']}")
+        logger.info(f"newsIds {articles['publicationIds']}")
 
-        for article in reversed(articles['articleIds']):
+        for article in reversed(articles['publicationIds']):
 
-            timePublished = parse(articles['articleRefs'][article]['timePublished'])
+            timePublished = parse(articles['publicationRefs'][article]['timePublished'])
             timePublished.replace(tzinfo=DT.timezone.utc).timestamp()
             at = int(timePublished.replace(tzinfo=DT.timezone.utc).timestamp())
             
@@ -79,10 +84,10 @@ class HabrParser():
 
                 self.set_last_datetime('LAST_NT', at)
 
-                title = articles['articleRefs'][article]['titleHtml']
-                author = articles['articleRefs'][article]['author']['alias']
-                tags = articles['articleRefs'][article]['tags']
-                aid = articles['articleRefs'][article]['id']
+                title = articles['publicationRefs'][article]['titleHtml']
+                author = articles['publicationRefs'][article]['author']['alias']
+                tags = articles['publicationRefs'][article]['tags']
+                aid = articles['publicationRefs'][article]['id']
 
                 link = f'https://habr.com/ru/news/t/{aid}/'
                 self.publish(title, author, tags, link, self.news_channelId)
