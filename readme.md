@@ -22,6 +22,7 @@ CHANNEL_ID=id канала с постами
 NEWS_CHANNEL_ID=id канала с новостями
 YDB_ENDPOINT
 YDB_DATABASE
+TG_PROXY=http://user:pass@ip:port
 ```
 
 Точка входа
