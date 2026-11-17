@@ -40,7 +40,6 @@ class HabrParser():
     def __init__(self):
         botToken = os.environ['BOT_TOKEN']
         self.channelId = os.environ['CHANNEL_ID']
-        self.news_channelId = os.environ['NEWS_CHANNEL_ID']
         self.tgProxy = os.getenv('TG_PROXY')
 
         self.tgApiUrl = f'https://api.telegram.org/bot{botToken}'
@@ -58,22 +57,6 @@ class HabrParser():
             channelId=self.channelId,
             linkPrefix='https://habr.com/ru/post',
             label='article',
-        )
-        return 1
-
-    def news(self, last_dt):
-        news = API.getNews()
-        if news is None:
-            logger.info("not found news")
-            return None
-
-        self._publish_feed(
-            feed=news,
-            last_dt=last_dt,
-            column='LAST_NT',
-            channelId=self.news_channelId,
-            linkPrefix='https://habr.com/ru/news/t',
-            label='news',
         )
         return 1
 
@@ -205,14 +188,6 @@ def handler(event, context):
         return {
             'statusCode': 200,
             'body': "error get articles"
-        }
-
-    # лента новостей
-    newsRes = habrParser.news(int(last_datetime.LAST_NT))
-    if newsRes is None:
-        return {
-            'statusCode': 200,
-            'body': "error get news"
         }
 
     return {

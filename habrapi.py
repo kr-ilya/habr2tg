@@ -11,10 +11,7 @@ class HabrAPI():
         self.ENDPOINT = "https://habr.com/kek/v2/"
 
     def getArticles(self):
-        return self._get('articles?fl=ru&hl=ru&sort=rating', 'getArticles')
-
-    def getNews(self):
-        return self._get('articles?fl=ru&hl=ru&news=true', 'getNews')
+        return self._get('articles?fl=ru&hl=ru&sort=date&queryType=articles&period=daily', 'getArticles')
 
     def _get(self, path, label):
         try:
